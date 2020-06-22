@@ -64,8 +64,8 @@ volatile uint16_t digit2;
 volatile uint16_t digit3;
 volatile uint16_t digit4;
 
-uint16_t Received_first = 0;
-uint16_t Received_second = 0;
+volatile uint16_t Received_first = 0;
+volatile uint16_t Received_second = 0;
 
 volatile uint16_t first_number = 0;
 volatile uint16_t second_number = 0;
@@ -87,7 +87,7 @@ static void MX_TIM9_Init(void);
 static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 
-void dec_to_7seg(uint8_t number) //transforming digits to apropriate display led pins
+void dec_to_7seg(uint8_t number) //transforming digits to appropriate display led pins
 {
 	switch (number)
 	{
@@ -280,7 +280,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 	if (Received_first > 0) {
 		first_number = Received_first; //saving to new variable
 		Received_first = 0; //reset of variable used in listening UART
-		cnt_btn = 0; //reset of counter used to choose operation type so after reciving first number we are certain that there is nothing in this counter
+		cnt_btn = 0; //reset of counter used to choose operation type so after receiving first number we are certain that there is nothing in this counter
 		HAL_UART_Receive_DMA(&huart2, &Received_second, 1); // Listening with second variable with use of DMA
 	}
 	if (Received_second > 0) {
@@ -293,7 +293,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 		HAL_UART_Transmit_DMA(&huart2, Data, 15); // sending message via UART
 
 	}
-	HAL_GPIO_TogglePin(LD2_GREEN_GPIO_Port, LD2_GREEN_Pin); //led to observe if interrupt happend
+	HAL_GPIO_TogglePin(LD2_GREEN_GPIO_Port, LD2_GREEN_Pin); //led to observe if interrupt happened
 }
 
 void calculate() { //calculating result
